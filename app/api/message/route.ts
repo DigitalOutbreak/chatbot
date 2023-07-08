@@ -12,21 +12,21 @@ export async function POST(req: Request) {
 
   const parsedMessages = MessageArraySchema.parse(messages);
 
-  const outBoundMessages: ChatGPTMessage[] = parsedMessages.map((message) => {
+  const outboundMessages: ChatGPTMessage[] = parsedMessages.map((message) => {
     return {
       role: message.isUserMessage ? 'user' : 'system',
       content: message.text,
     };
   });
 
-  outBoundMessages.unshift({
+  outboundMessages.unshift({
     role: 'system',
     content: chatbotPrompt,
   });
 
   const payload: OpenAIStreamPayload = {
     model: 'gpt-3.5-turbo',
-    messages: outBoundMessages,
+    messages: outboundMessages,
     temperature: 0.4,
     top_p: 1,
     frequency_penalty: 0.5,
