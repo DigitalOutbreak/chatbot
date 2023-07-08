@@ -12,10 +12,12 @@ export async function POST(req: Request) {
 
   const parsedMessages = MessageArraySchema.parse(messages);
 
-  const outBoundMessages: ChatGPTMessage[] = parsedMessages.map((message) => ({
-    role: message.isUserMessage ? 'user' : 'system',
-    content: message.text,
-  }));
+  const outBoundMessages: ChatGPTMessage[] = parsedMessages.map((message) => {
+    return {
+      role: message.isUserMessage ? 'user' : 'system',
+      content: message.text,
+    };
+  });
 
   outBoundMessages.unshift({
     role: 'system',
